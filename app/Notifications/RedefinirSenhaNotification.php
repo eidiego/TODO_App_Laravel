@@ -13,15 +13,17 @@ class RedefinirSenhaNotification extends Notification
     use Queueable;
     public $token;
     public $email;
+    public $name;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token, $email)
+    public function __construct($token, $email, $name)
     {
         $this->token = $token;
         $this->email = $email;
+        $this->name = $name;
     }
 
     /**
@@ -47,10 +49,12 @@ class RedefinirSenhaNotification extends Notification
         $minutos = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
         return (new MailMessage)
         ->subject('Atualização de senha')
+        ->greeting('Olá '.$this->name)
         ->line('Você está recebendo está mensagem para recriar sua senha..')
         ->action('Refazer senha', $url)
         ->line('Esse link irá expirar em '.$minutos.' minutos.')
-        ->line('Se você não fez essa requisição, favor desconsiderar esse e-mail.');
+        ->line('Se você não fez essa requisição, favor desconsiderar esse e-mail.')
+        ->salutation('Até breve!');
     }
 
     /**
