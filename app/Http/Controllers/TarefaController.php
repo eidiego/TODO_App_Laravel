@@ -28,12 +28,12 @@ class TarefaController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
+     *s
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        return view('tarefa.create');
     }
 
     /**
@@ -44,7 +44,8 @@ class TarefaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $tarefa = Tarefa::create($request->all());
+        return redirect()->route('tarefa.show', ['tarefa' => $tarefa->id]);
     }
 
     /**
