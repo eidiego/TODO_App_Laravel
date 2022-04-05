@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Notifications\RedefinirSenhaNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
 
 class User extends Authenticatable
 {
@@ -42,6 +44,6 @@ class User extends Authenticatable
     ];
 
     public function sendPasswordResetNotification($token) {
-        dd('chegamos aqui');
+        $this->notify(new RedefinirSenhaNotification($token, $this->email));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -10,15 +11,17 @@ use Illuminate\Notifications\Notification;
 class RedefinirSenhaNotification extends Notification
 {
     use Queueable;
-
+    public $token;
+    public $email;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token, $email)
     {
-        //
+        $this->token = $token;
+        $this->email = $email;
     }
 
     /**
@@ -40,10 +43,14 @@ class RedefinirSenhaNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $url= 'http://localhost:8000/password/reset/'.$this->token.'?email='.$this->email;
+        $minutos = config('auth.passwords.'.config('auth.defaults.passwords').'.expire');
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+        ->subject('Atualização de senha')
+        ->line('Você está recebendo está mensagem para recriar sua senha..')
+        ->action('Refazer senha', $url)
+        ->line('Esse link irá expirar em '.$minutos.' minutos.')
+        ->line('Se você não fez essa requisição, favor desconsiderar esse e-mail.');
     }
 
     /**
