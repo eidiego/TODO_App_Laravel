@@ -22,13 +22,15 @@ class TarefaController extends Controller
      */
     public function index()
     {
-        if(auth()->check()) {
-            return ('Você está logado aqui');
-        } else {
-            return ('Precisa se logar mano');
-        }
+        $user_id = auth()->user()->id;
+        $tarefas =  Tarefa::where('user_id', $user_id)->get();
+        return view('tarefa.index', ['tarefas' => $tarefas]);
     }
-
+    // if(auth()->check()) {
+    //     return ('Você está logado aqui');
+    // } else {
+    //     return ('Precisa se logar mano');
+    // }
     /**
      * Show the form for creating a new resource.
      *s
