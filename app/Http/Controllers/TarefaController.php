@@ -6,6 +6,8 @@ use Mail;
 use App\Mail\NovaTarefaMail;
 use App\Models\Tarefa;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TarefasExport;
 
 
 class TarefaController extends Controller
@@ -125,7 +127,7 @@ class TarefaController extends Controller
     }
 
     public function exportacao() {
-        return 'Exportar um arquivo no formato XLSX';
+        return Excel::download(new TarefasExport, 'tarefa.xlsx');
     }
 
 }
