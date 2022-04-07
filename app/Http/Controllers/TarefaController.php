@@ -12,7 +12,7 @@ class TarefaController extends Controller
 {
 
     public function __construct() {
-        //$this->middleware('auth');
+        $this->middleware('auth');
     }
 
     /**
@@ -123,4 +123,9 @@ class TarefaController extends Controller
             return redirect()->route('tarefa.index');
 
     }
+
+    public function exportacao() {
+        return 'Exportar um arquivo no formato XLSX';
+    }
+
 }
